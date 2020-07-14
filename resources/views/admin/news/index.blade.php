@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title', '登録済みのニュースの一覧')
+@section('title', '登録済みニュースの一覧')
 
 @section('content')
     <div class="container">
@@ -27,8 +27,8 @@
         </div>
         <div class="row">
             <div class="list-news col-md-12 mx-auto">
-                <div clas="row">
-                    <table class="table tale-dark">
+                <div class="row">
+                    <table class="table table-dark">
                         <thead>
                             <tr>
                                 <th width="10%">ID</th>
