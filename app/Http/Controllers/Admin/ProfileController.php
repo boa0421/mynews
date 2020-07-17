@@ -47,7 +47,7 @@ class ProfileController extends Controller
         unset($profile_form['_token']);
         $profile->fill($profile_form)->save();
 
-        return redirect('admin/profile');
+        return redirect('admin/news');
         
     }
 }
