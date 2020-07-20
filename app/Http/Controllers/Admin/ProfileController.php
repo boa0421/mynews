@@ -7,6 +7,9 @@ use App\Http\Controllers\Controller;
 
 use App\Profile;
 
+use Carbon\Carbon;
+
+use App\ProfileHistory;
 
 class ProfileController extends Controller
 {
@@ -29,6 +32,19 @@ class ProfileController extends Controller
 
         return redirect('admin/profile/create');
     }
+    
+    public function index(Request $request)
+    {
+        $cond_title = $request->cond_title;
+        if ($cond_title != '') {
+            // 検索されたら検索結果を取得する
+            $posts = Profile::where('title', $cond_title)->get();
+        } else {
+            // それ以外はすべてのニュースを取得する
+            $posts = Profile::all();
+        }
+        return view('admin.profile.index', ['posts' => $posts, 'cond_title' => $cond_title]);
+    }
 
     public function edit(Request $request)
     {
@@ -46,8 +62,20 @@ class ProfileController extends Controller
         $profile_form = $request->all();
         unset($profile_form['_token']);
         $profile->fill($profile_form)->save();
-
-        return redirect('admin/news');
         
+        $profile_history = new ProfileHistory;
+        $profile_history->profile_id = $profile->id;
+        $profile_history->edited_at = Carbon::now();
+        $profile_history->save();
+
+        return redirect('admin/profile/');
+        
+    }
+    
+     public function delete(Request $request)
+    {
+        $profile = Profile::find($request->id);
+        $profile->delete();
+        return redirect('admin/profile/');
     }
 }
