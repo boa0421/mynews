@@ -7,6 +7,10 @@ use App\Http\Controllers\Controller;
 
 use App\News;
 
+use App\History;
+
+use Carbon\Carbon;
+
 class NewsController extends Controller
 {
     public function add()
@@ -30,17 +34,17 @@ class NewsController extends Controller
             $news->image_path = null;
         }
 
-    // フォームから送信されてきた_tokenを削除する
-    unset($form['_token']);
-    // フォームから送信されてきたimageを削除する
-    unset($form['image']);
-
-    // データベースに保存する
-    $news->fill($form);
-    $news->save();
-
-    // admin/news/createにリダイレクトする
-    return redirect('admin/news/create');
+        // フォームから送信されてきた_tokenを削除する
+        unset($form['_token']);
+        // フォームから送信されてきたimageを削除する
+        unset($form['image']);
+    
+        // データベースに保存する
+        $news->fill($form);
+        $news->save();
+    
+        // admin/news/createにリダイレクトする
+        return redirect('admin/news/create');
     }
   
     public function index(Request $request)
@@ -53,7 +57,7 @@ class NewsController extends Controller
             // それ以外はすべてのニュースを取得する
             $posts = News::all();
         }
-    return view('admin.news.index', ['posts' => $posts, 'cond_title' => $cond_title]);
+        return view('admin.news.index', ['posts' => $posts, 'cond_title' => $cond_title]);
     }
   
     public function edit(Request $request)
@@ -86,7 +90,12 @@ class NewsController extends Controller
         // 該当するデータを上書きして保存する
         $news->fill($news_form)->save();
         
-        return redirect('admin/news');
+        $history = new History;
+        $history->news_id = $news->id;
+        $history->edited_at = Carbon::now();
+        $history->save();
+        
+        return redirect('admin/news/');
     }
     
     public function delete(Request $request)
