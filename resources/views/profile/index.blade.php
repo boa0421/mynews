@@ -11,7 +11,7 @@
                 <a href="{{ action('Admin\ProfileController@add') }}" role="button" class="btn btn-primary">新規作成</a>
             </div>
             <div class="col-md-8">
-                <form action="{{ action('Admin\ProfileController@index') }}" method="get">
+                <form action="{{ action('ProfileController@index') }}" method="get">
                     <div class="form-group row">
                         <label class="col-md-2">名前</label>
                         <div class="col-md-8">
@@ -32,8 +32,10 @@
                         <thead>
                             <tr>
                                 <th width="10%">ID</th>
-                                <th width="20%">名前</th></th>
-                                <th width="50%">自己紹介</th>
+                                <th width="10%">名前</th></th>
+                                <th width="10%">性別</th>
+                                <th width="20%">趣味</th>
+                                <th width="30%">自己紹介</th>
                                 <th width="10%">操作</th>
                             </tr>
                         </thead>
@@ -42,6 +44,8 @@
                                 <tr>
                                     <th>{{ $profile->id }}</th>
                                     <td>{{ \Str::limit($profile->name, 100) }}</td>
+                                    <td>{{ \Str::limit($profile->gender, 100) }}</td>
+                                    <td>{{ \Str::limit($profile->hobby, 100) }}</td>
                                     <td>{{ \Str::limit($profile->introduction, 250) }}</td>
                                     <td>
                                         <div>
