@@ -11,10 +11,6 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
 Route::group(['prefix' => 'admin'], function() {
      Route::get('news/create', 'Admin\NewsController@add')->middleware('auth');
      Route::post('news/create', 'Admin\NewsController@create');
@@ -35,3 +31,5 @@ Route::group(['prefix' => 'admin'], function() {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::get('/', 'NewsController@index');
