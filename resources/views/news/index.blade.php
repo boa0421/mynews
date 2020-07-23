@@ -1,3 +1,5 @@
+<p>HOME</p>
+
 @extends('layouts.front')
 
 @section('content')
